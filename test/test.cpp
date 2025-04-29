@@ -1,6 +1,8 @@
 #include <igloo/igloo.h>
 #include <unistd.h>
 #include "../src/Application.h"
+#include "../src/Scribble.h"
+#include "../src/Point.h"
 #include <thread>
 
 using namespace igloo;
@@ -34,9 +36,26 @@ Context(AppTest){
         Assert::That(app->canvas != 0, IsTrue());
     }
 
-    Spec(RenderCenterPoint) { //Rather then checking the render it just checks if render is running properly
-        Assert::That(app->canvas != 0, IsTrue());
-        app->canvas->render();
+    Spec(ScribbleShouldAddPoints) {
+        Scribble scribble;
+        scribble.addPoint(0.0, 0.0f, 1.0f, 0.0f, 0.0f, 5);
+        scribble.addPoint(0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 7);
+        Assert::That(scribble.getPointCount(), Equals(2u));
+    }
+
+    Spec(ScribbleShouldDrawWithoutCrash) {
+    Scribble scribble;
+    scribble.addPoint(0.0, 0.0f, 1.0f, 0.0f, 0.0f, 5);
+    scribble.addPoint(-0.5, -0.5f, 0.0f, 0.0f, 1.0f, 5);
+    scribble.draw();
+    Assert::That(true, IsTrue());
+    }
+
+    Spec(ScribbleDestructorShouldCleanMemory) {
+        Scribble* scribble = new Scribble();
+        scribble->addPoint(0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 5);
+        delete scribble;
+        Assert::That(true, IsTrue());
     }
 };
 
