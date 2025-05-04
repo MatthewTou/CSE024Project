@@ -10,11 +10,14 @@ Toolbar::Toolbar(int x, int y, int w, int h) : Group(x, y, w, h) {
     triangleButton = new Image(x, y + 150, 50, 50, "./assets/triangle.png");
     rectangleButton = new Image(x, y + 200, 50, 50, "./assets/rectangle.png");
     polygonButton = new Image(x, y + 250, 50, 50, "./assets/polygon.png"); 
-    undoButton = new Image(x, y + 300, 50, 50, "./assets/undo.png");
-    clearButton = new Image(x, y + 450, 50, 50, "./assets/clear.png");
-    decreaseSizeButton = new Image(x, y + 350, 50, 50, "./assets/minus.png");
-    increaseSizeButton = new Image(x, y + 400, 50, 50, "./assets/plus.png");
-
+    selectorButton = new Image(x, y + 300, 50, 50, "./assets/mouse.png");
+    bringToFrontButton = new Image(x, y + 350, 50, 50, "./assets/bring-to-front.png");
+    sendToBackButton = new Image(x, y + 400, 50, 50, "./assets/send-to-back.png");
+    decreaseSizeButton = new Image(x, y + 450, 50, 50, "./assets/minus.png");
+    increaseSizeButton = new Image(x, y + 500, 50, 50, "./assets/plus.png");
+    undoButton = new Image(x, y + 550, 50, 50, "./assets/undo.png");
+    clearButton = new Image(x, y + 600, 50, 50, "./assets/clear.png");
+    
     pencilButton->box(FL_BORDER_BOX);
     eraserButton->box(FL_BORDER_BOX);
     circleButton->box(FL_BORDER_BOX);
@@ -25,6 +28,9 @@ Toolbar::Toolbar(int x, int y, int w, int h) : Group(x, y, w, h) {
     clearButton->box(FL_BORDER_BOX);
     decreaseSizeButton->box(FL_BORDER_BOX);
     increaseSizeButton->box(FL_BORDER_BOX);
+    selectorButton->box(FL_BORDER_BOX);
+    bringToFrontButton->box(FL_BORDER_BOX);
+    sendToBackButton->box(FL_BORDER_BOX);
     
     tool = PENCIL;
     action = NONE;
@@ -37,6 +43,10 @@ Toolbar::Toolbar(int x, int y, int w, int h) : Group(x, y, w, h) {
     ON_CLICK(triangleButton, Toolbar::onClick);
     ON_CLICK(rectangleButton, Toolbar::onClick);
     ON_CLICK(polygonButton, Toolbar::onClick);
+    ON_CLICK(polygonButton, Toolbar::onClick);
+    ON_CLICK(selectorButton, Toolbar::onClick);
+    ON_CLICK(bringToFrontButton, Toolbar::onClick);
+    ON_CLICK(sendToBackButton, Toolbar::onClick);
     ON_CLICK(undoButton, Toolbar::onClick);
     ON_CLICK(clearButton, Toolbar::onClick);
     ON_CLICK(decreaseSizeButton, Toolbar::onClick);
@@ -51,7 +61,7 @@ void Toolbar::onClick(bobcat::Widget* sender) {
     if (sender == pencilButton) {
         tool = PENCIL;
     }
-    if (sender == eraserButton) {
+    else if (sender == eraserButton) {
         tool = ERASER;
     }
     else if (sender == circleButton) {
@@ -66,6 +76,9 @@ void Toolbar::onClick(bobcat::Widget* sender) {
     else if (sender == polygonButton) {
         tool = POLYGON;
     }
+    else if (sender == selectorButton) {
+        tool = SELECTOR;
+    }
     else if (sender == undoButton) {
         action = UNDO;
     }
@@ -78,6 +91,12 @@ void Toolbar::onClick(bobcat::Widget* sender) {
     else if (sender == decreaseSizeButton) {
         action = DECREASE_SIZE;
     }
+    else if (sender == bringToFrontButton) {
+        action = BRING_TO_FRONT;
+    }
+    else if (sender == sendToBackButton) {
+        action = BRING_TO_BACK;
+    }
 
     if (onChangeCb) {
         onChangeCb(this);
@@ -85,6 +104,7 @@ void Toolbar::onClick(bobcat::Widget* sender) {
 
     visualizeTool();
     redraw();
+    std::cout << "[DEBUG] Tool: " << tool << ", Action: " << action << std::endl;
 }
 
 void Toolbar::deselectAllTools() {
@@ -94,6 +114,9 @@ void Toolbar::deselectAllTools() {
     triangleButton->color(FL_BACKGROUND_COLOR);
     rectangleButton->color(FL_BACKGROUND_COLOR);
     polygonButton->color(FL_BACKGROUND_COLOR);
+    selectorButton->color(FL_BACKGROUND_COLOR);
+    bringToFrontButton->color(FL_BACKGROUND_COLOR);
+    sendToBackButton->color(FL_BACKGROUND_COLOR);
     undoButton->color(FL_BACKGROUND_COLOR);
     decreaseSizeButton->color(FL_BACKGROUND_COLOR);
     increaseSizeButton->color(FL_BACKGROUND_COLOR);
@@ -118,6 +141,9 @@ void Toolbar::visualizeTool() {
     else if (tool == POLYGON) {
         polygonButton->color(FL_WHITE);
     }
+    else if (tool == SELECTOR) {
+        selectorButton->color(FL_WHITE);
+    }
 }
 
 TOOL Toolbar::getTool() const {
@@ -127,3 +153,4 @@ TOOL Toolbar::getTool() const {
 ACTION Toolbar::getAction() const {
     return action;
 }
+

@@ -7,16 +7,11 @@ using namespace bobcat;
 using namespace std;
 
 Application::Application() {
-    r = 1.0;
-    g = 0.0;
-    b = 0.0;
-    pointSize = 5;
-    color = "Red";
     
-    window = new Window(100, 100, 400, 550, "Paint Application");
-    canvas = new Canvas(50, 0, 450, 500);
-    toolbar = new Toolbar(0, 0, 50, 500);
-    colorSelector = new ColorSelector(50, 500, 300, 50);
+    window = new Window(100, 100, 500, 650, "Paint Application");
+    canvas = new Canvas(50, 0, 450, 600);
+    toolbar = new Toolbar(0, 0, 50, 650);
+    colorSelector = new ColorSelector(100, 600, 350, 50);
     colorSelector->box(FL_BORDER_BOX);
     
     window->add(canvas);
@@ -37,12 +32,12 @@ void Application::onMouseDown(bobcat::Widget* sender, float x, float y) {
 
     if (tool == PENCIL) {
         canvas->startScribble();
-        canvas->updateScribble(x, y, color.getR(), color.getG(), color.getB(), pointSize);
+        canvas->updateScribble(x, y, color.getR(), color.getG(), color.getB(), 5);
         canvas->redraw();
     }
     else if (tool == ERASER) {
         canvas->startScribble();
-        canvas->updateScribble(x, y, 1, 1, 1, pointSize);
+        canvas->updateScribble(x, y, 1, 1, 1, 14);
         canvas->redraw();
     }
     else if (tool == CIRCLE) {
@@ -61,6 +56,31 @@ void Application::onMouseDown(bobcat::Widget* sender, float x, float y) {
         canvas->addPolygon(x, y, color.getR(), color.getG(), color.getB());
         canvas->redraw();
     }
+    else if (tool == SELECTOR) {
+        Shape* prevSelected = canvas->getSelected();
+        canvas->select(x, y);
+
+        Shape* current = canvas->getSelected();
+        if (current && current == prevSelected) {
+            
+            Color color = colorSelector->getColor();
+
+            // Recolor only if it's different
+            float r = color.getR();
+            float g = color.getG();
+            float b = color.getB();
+
+            // Check if color is different before applying
+            if (current->getR() != r || current->getG() != g || current->getB() != b) {
+                canvas->recolorSelected(r, g, b);
+                canvas->redraw();
+                std::cout << "[DEBUG] Shape recolored.\n";
+            } else {
+                std::cout << "[DEBUG] Same color selected — no change.\n";
+            }
+        }
+    }
+    
 }
 
 void Application::onMouseDrag(bobcat::Widget* sender, float x, float y) {
@@ -68,12 +88,21 @@ void Application::onMouseDrag(bobcat::Widget* sender, float x, float y) {
     Color color = colorSelector->getColor();
 
     if (tool == PENCIL) {
-        canvas->updateScribble(x, y, color.getR(), color.getG(), color.getB(), pointSize);
+        canvas->updateScribble(x, y, color.getR(), color.getG(), color.getB(), 5);
         canvas->redraw();
     }
     else if (tool == ERASER) {
-        canvas->updateScribble(x, y, 1.0, 1.0, 1.0, pointSize);
+        canvas->updateScribble(x, y, 1.0, 1.0, 1.0, 14);
         canvas->redraw();
+    }
+    else if (tool == SELECTOR) {
+        Shape* selected = canvas->getSelected();
+        if (selected) {
+            float dx = x - selected->getX();
+            float dy = y - selected->getY();
+            canvas->moveSelected(dx, dy);
+            canvas->redraw();
+        }
     }
 }
 
@@ -94,13 +123,20 @@ void Application::onToolbarChange(bobcat::Widget* sender) {
         canvas->redraw();
     }
     else if (action == INCREASE_SIZE) {
-        pointSize++;
-        std::cout << "[DEBUG] pointSize increased to: " << pointSize << std::endl;
+        canvas->resizeSelected(pointSize);
+        canvas->redraw();
     }
     else if (action == DECREASE_SIZE) {
-        if (pointSize > 1) {
-            pointSize--;
-        std::cout << "[DEBUG] pointSize decreased to: " << pointSize << std::endl;
+            canvas->resizeSelected(pointSize);
+            canvas->redraw();
         }
+    else if (action == BRING_TO_BACK) {
+        canvas->sendSelectedToBack();
+        canvas->redraw();
     }
+    else if (action == BRING_TO_FRONT) {
+        canvas->bringSelectedToFront();
+        canvas->redraw();
+    }
+
 }

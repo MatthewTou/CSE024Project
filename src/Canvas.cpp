@@ -4,6 +4,8 @@
 
 Canvas::Canvas(int x, int y, int w, int h) : Canvas_(x,  y, w, h) {
     currentScribble = nullptr;
+    selected = nullptr;
+    selector = new Selector(shapes);
 }
 
 void Canvas::render()  { 
@@ -60,5 +62,44 @@ void Canvas::undo() {
         delete shapes.back();
         shapes.pop_back();
     }
+}
+
+void Canvas::select(float x, float y) {
+    selector->select(x, y);
+    selected = selector->getSelected();
+}
+
+void Canvas::moveSelected(float dx, float dy) {
+    if (selected) {
+        selector->move(dx, dy);
+    }
+}
+
+void Canvas::resizeSelected(int size) {
+    if (selected) {
+        selector->resize(size);
+    }
+}
+
+void Canvas::recolorSelected(float r, float g, float b) {
+    if (selected) {
+        selector->recolor(r, g, b);
+    }
+}
+
+void Canvas::bringSelectedToFront() {
+    if (selected) {
+        selector->bringToFront();
+    }
+}
+
+void Canvas::sendSelectedToBack() {
+    if (selected) {
+        selector->sendToBack();
+    }
+}
+
+Shape* Canvas::getSelected() const {
+    return selected;
 }
 

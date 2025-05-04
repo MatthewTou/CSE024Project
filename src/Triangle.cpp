@@ -28,3 +28,33 @@ void Triangle::draw() {
         glVertex2f(x + size, y - size);
     glEnd();
 }
+
+void Triangle::move(float dx, float dy) {
+    x += dx;
+    y += dy;
+}
+
+void Triangle::setSize(int newSize) {
+    size = newSize / 100.0f;
+}
+
+void Triangle::setColor(float r, float g, float b) {
+    this->r = r;
+    this->g = g;
+    this->b = b;
+}
+
+bool Triangle::contains(float px, float py) {
+    return abs(px - x) <= size && abs(py - y) <= size;
+}
+
+float Triangle::getX() const { return x; }
+float Triangle::getY() const { 
+    return y; }
+float Triangle::getR() const { 
+    return r; }
+float Triangle::getG() const { 
+    return g; }
+float Triangle::getB() const { 
+    return b; }
+

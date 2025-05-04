@@ -29,3 +29,39 @@ void Circle::draw() {
     }
     glEnd();
 }
+
+void Circle::move(float dx, float dy) {
+    x += dx;
+    y += dy;
+}
+
+void Circle::setSize(int newSize) {
+    radius = newSize / 100.0f;
+}
+
+void Circle::setColor(float r, float g, float b) {
+    this->r = r;
+    this->g = g;
+    this->b = b;
+}
+
+bool Circle::contains(float px, float py) {
+    float dist = std::sqrt((px - x)*(px - x) + (py - y)*(py - y));
+    return dist <= radius;
+}
+
+float Circle::getX() const { 
+    return x; 
+}
+float Circle::getY() const { 
+    return y; 
+}
+float Circle::getR() const { 
+    return r; 
+}
+float Circle::getG() const { 
+    return g; 
+}
+float Circle::getB() const { 
+    return b; 
+}

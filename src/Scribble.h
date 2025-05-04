@@ -13,9 +13,21 @@ class Scribble : public Shape {
         ~Scribble();
 
         void addPoint(float x, float y, float r, float g, float b, int size);
-        void draw();
+        
+        void draw() override;
         
         std::size_t getPointCount() const;
+
+        void move(float dx, float dy) override;
+        void setSize(int newSize) override;
+        void setColor(float r, float g, float b) override;
+        bool contains(float x, float y) override;
+        float getX() const override;
+        float getY() const override;
+        float getR() const override;
+        float getG() const override;
+        float getB() const override;
+       
 };
 
 

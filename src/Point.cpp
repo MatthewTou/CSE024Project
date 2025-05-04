@@ -1,5 +1,6 @@
 #include "Point.h"
 #include <GL/freeglut.h>
+#include <cmath>
 
 Point::Point() {
     x = 0.0;
@@ -32,6 +33,28 @@ void Point::draw() {
     glBegin(GL_POINTS);
         glVertex2f(x, y);
     glEnd();
+}
+
+void Point::move(float dx, float dy) {
+    x += dx;
+    y += dy;
+}
+
+void Point::setSize(int newSize) {
+    size = newSize;
+}
+
+void Point::setColor(float r, float g, float b) {
+    this->r = r;
+    this->g = g;
+    this->b = b;
+}
+
+bool Point::contains(float px, float py) {
+    float dx = px - x;
+    float dy = py - y;
+    float dist = std::sqrt(dx * dx + dy * dy);
+    return dist <= size / 2.0f;
 }
 
 float Point::getX() const { 

@@ -35,3 +35,39 @@ void Polygon::draw() {
     }
     glEnd();
 }
+
+void Polygon::move(float dx, float dy) {
+    x += dx;
+    y += dy;
+}
+
+void Polygon::setSize(int newSize) {
+    radius = newSize / 100.0f;
+}
+
+void Polygon::setColor(float r, float g, float b) {
+    this->r = r;
+    this->g = g;
+    this->b = b;
+}
+
+bool Polygon::contains(float px, float py) {
+    float dist = std::sqrt((px - x)*(px - x) + (py - y)*(py - y));
+    return dist <= radius;
+}
+
+float Polygon::getX() const { 
+    return x; 
+    }
+float Polygon::getY() const { 
+    return y; 
+}
+float Polygon::getR() const { 
+    return r; 
+}
+float Polygon::getG() const { 
+    return g; 
+}
+float Polygon::getB() const {
+    return b;
+}

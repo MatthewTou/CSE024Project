@@ -9,12 +9,15 @@
 #include "Triangle.h"
 #include "Polygon.h"
 #include "Shape.h"
+#include "Selector.h"
 #include <bobcat_ui/canvas.h>
 #include <vector>
 
 class Canvas : public bobcat::Canvas_ {
     std::vector<Shape*> shapes;
     Scribble* currentScribble;
+    Shape* selected;
+    Selector* selector;
 
     
     public:
@@ -29,6 +32,15 @@ class Canvas : public bobcat::Canvas_ {
         void addCircle(float x, float y, float r, float g, float b);
         void addTriangle(float x, float y, float r, float g, float b);
         void addPolygon(float x, float y, float r, float g, float b);
+
+        void select(float x, float y);
+        void moveSelected(float dx, float dy);
+        void resizeSelected(int size);
+        void recolorSelected(float r, float g, float b);
+        void bringSelectedToFront();
+        void sendSelectedToBack();
+
+        Shape* getSelected() const;
 
         void clear();
         void undo();
