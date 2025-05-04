@@ -22,3 +22,4 @@ void Scribble::draw() {
 std::size_t Scribble::getPointCount() const {
     return points.size();
 }
+

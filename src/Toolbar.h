@@ -13,6 +13,9 @@ class Toolbar : public bobcat::Group {
     bobcat::Image* polygonButton;
     bobcat::Image* circleButton;
     bobcat::Image* rectangleButton;
+    bobcat::Image* decreaseSizeButton;
+    bobcat::Image* increaseSizeButton;
+
 
     TOOL tool;
     ACTION action;

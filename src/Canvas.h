@@ -15,6 +15,7 @@
 class Canvas : public bobcat::Canvas_ {
     std::vector<Shape*> shapes;
     Scribble* currentScribble;
+
     
     public:
         Canvas(int x, int y, int w, int h);

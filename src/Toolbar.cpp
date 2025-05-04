@@ -11,7 +11,9 @@ Toolbar::Toolbar(int x, int y, int w, int h) : Group(x, y, w, h) {
     rectangleButton = new Image(x, y + 200, 50, 50, "./assets/rectangle.png");
     polygonButton = new Image(x, y + 250, 50, 50, "./assets/polygon.png"); 
     undoButton = new Image(x, y + 300, 50, 50, "./assets/undo.png");
-    clearButton = new Image(x, y + 350, 50, 50, "./assets/clear.png");
+    clearButton = new Image(x, y + 450, 50, 50, "./assets/clear.png");
+    decreaseSizeButton = new Image(x, y + 350, 50, 50, "./assets/minus.png");
+    increaseSizeButton = new Image(x, y + 400, 50, 50, "./assets/plus.png");
 
     pencilButton->box(FL_BORDER_BOX);
     eraserButton->box(FL_BORDER_BOX);
@@ -21,6 +23,8 @@ Toolbar::Toolbar(int x, int y, int w, int h) : Group(x, y, w, h) {
     polygonButton->box(FL_BORDER_BOX);
     undoButton->box(FL_BORDER_BOX);
     clearButton->box(FL_BORDER_BOX);
+    decreaseSizeButton->box(FL_BORDER_BOX);
+    increaseSizeButton->box(FL_BORDER_BOX);
     
     tool = PENCIL;
     action = NONE;
@@ -35,6 +39,8 @@ Toolbar::Toolbar(int x, int y, int w, int h) : Group(x, y, w, h) {
     ON_CLICK(polygonButton, Toolbar::onClick);
     ON_CLICK(undoButton, Toolbar::onClick);
     ON_CLICK(clearButton, Toolbar::onClick);
+    ON_CLICK(decreaseSizeButton, Toolbar::onClick);
+    ON_CLICK(increaseSizeButton, Toolbar::onClick);
 }
 
 void Toolbar::onClick(bobcat::Widget* sender) {
@@ -66,6 +72,12 @@ void Toolbar::onClick(bobcat::Widget* sender) {
     else if (sender == clearButton) {
         action = CLEAR;
     }
+    else if (sender == increaseSizeButton) {
+        action = INCREASE_SIZE;
+    }
+    else if (sender == decreaseSizeButton) {
+        action = DECREASE_SIZE;
+    }
 
     if (onChangeCb) {
         onChangeCb(this);
@@ -83,6 +95,8 @@ void Toolbar::deselectAllTools() {
     rectangleButton->color(FL_BACKGROUND_COLOR);
     polygonButton->color(FL_BACKGROUND_COLOR);
     undoButton->color(FL_BACKGROUND_COLOR);
+    decreaseSizeButton->color(FL_BACKGROUND_COLOR);
+    increaseSizeButton->color(FL_BACKGROUND_COLOR);
 }
 
 void Toolbar::visualizeTool() {
