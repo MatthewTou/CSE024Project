@@ -5,8 +5,8 @@ using namespace bobcat;
 using namespace std;
 
 Application::Application() {
-    window = new Window(100, 100, 400, 400, "Paint Application");
-    canvas = new Canvas(10, 10, 350, 350);
+    window = new Window(100, 100, 600, 500, "Paint Application");
+    canvas = new Canvas(50, 0, 550, 450);
     
     window->show();
 

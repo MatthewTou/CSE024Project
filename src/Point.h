@@ -12,6 +12,9 @@ class Point : public Shape {
     int size;
 
     public: 
+        Point();
+        Point(float x, float y);
+        Point(float x, float y, float r, float g, float b);
         Point(float x, float y, float r, float g, float b, int size);
         
         void draw();
