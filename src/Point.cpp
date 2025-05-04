@@ -40,10 +40,6 @@ void Point::move(float dx, float dy) {
     y += dy;
 }
 
-void Point::setSize(int newSize) {
-    size = newSize;
-}
-
 void Point::setColor(float r, float g, float b) {
     this->r = r;
     this->g = g;
@@ -55,6 +51,14 @@ bool Point::contains(float px, float py) {
     float dy = py - y;
     float dist = std::sqrt(dx * dx + dy * dy);
     return dist <= size / 2.0f;
+}
+
+void Point::setSize(bool increase) {
+    if (increase) {
+        size += 1;
+    } else {
+        size = fmax(1, size - 1);
+    }
 }
 
 float Point::getX() const { 

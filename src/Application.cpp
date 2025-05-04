@@ -32,12 +32,12 @@ void Application::onMouseDown(bobcat::Widget* sender, float x, float y) {
 
     if (tool == PENCIL) {
         canvas->startScribble();
-        canvas->updateScribble(x, y, color.getR(), color.getG(), color.getB(), 5);
+        canvas->updateScribble(x, y, color.getR(), color.getG(), color.getB(), pointSize);
         canvas->redraw();
     }
     else if (tool == ERASER) {
         canvas->startScribble();
-        canvas->updateScribble(x, y, 1, 1, 1, 14);
+        canvas->updateScribble(x, y, 1, 1, 1, pointSize);
         canvas->redraw();
     }
     else if (tool == CIRCLE) {
@@ -57,11 +57,10 @@ void Application::onMouseDown(bobcat::Widget* sender, float x, float y) {
         canvas->redraw();
     }
     else if (tool == SELECTOR) {
-        Shape* prevSelected = canvas->getSelected();
         canvas->select(x, y);
 
         Shape* current = canvas->getSelected();
-        if (current && current == prevSelected) {
+        if (current) {
             
             Color color = colorSelector->getColor();
 
@@ -74,9 +73,7 @@ void Application::onMouseDown(bobcat::Widget* sender, float x, float y) {
             if (current->getR() != r || current->getG() != g || current->getB() != b) {
                 canvas->recolorSelected(r, g, b);
                 canvas->redraw();
-                std::cout << "[DEBUG] Shape recolored.\n";
             } else {
-                std::cout << "[DEBUG] Same color selected — no change.\n";
             }
         }
     }
@@ -88,11 +85,11 @@ void Application::onMouseDrag(bobcat::Widget* sender, float x, float y) {
     Color color = colorSelector->getColor();
 
     if (tool == PENCIL) {
-        canvas->updateScribble(x, y, color.getR(), color.getG(), color.getB(), 5);
+        canvas->updateScribble(x, y, color.getR(), color.getG(), color.getB(), pointSize);
         canvas->redraw();
     }
     else if (tool == ERASER) {
-        canvas->updateScribble(x, y, 1.0, 1.0, 1.0, 14);
+        canvas->updateScribble(x, y, 1.0, 1.0, 1.0, pointSize);
         canvas->redraw();
     }
     else if (tool == SELECTOR) {
@@ -113,6 +110,11 @@ void Application::onMouseUp(bobcat::Widget* sender, float x, float y) {
 
 void Application::onToolbarChange(bobcat::Widget* sender) {
     ACTION action = toolbar->getAction();
+    TOOL tool = toolbar->getTool();
+
+    if (tool != SELECTOR) {
+    canvas->deselect();  
+    }
 
     if (action == CLEAR) {
         canvas->clear();
@@ -123,12 +125,14 @@ void Application::onToolbarChange(bobcat::Widget* sender) {
         canvas->redraw();
     }
     else if (action == INCREASE_SIZE) {
-        canvas->resizeSelected(pointSize);
+        pointSize++;
+        canvas->resizeSelected(true);
         canvas->redraw();
     }
     else if (action == DECREASE_SIZE) {
-            canvas->resizeSelected(pointSize);
-            canvas->redraw();
+        pointSize--;
+        canvas->resizeSelected(false);
+        canvas->redraw();
         }
     else if (action == BRING_TO_BACK) {
         canvas->sendSelectedToBack();

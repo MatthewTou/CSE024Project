@@ -104,7 +104,6 @@ void Toolbar::onClick(bobcat::Widget* sender) {
 
     visualizeTool();
     redraw();
-    std::cout << "[DEBUG] Tool: " << tool << ", Action: " << action << std::endl;
 }
 
 void Toolbar::deselectAllTools() {

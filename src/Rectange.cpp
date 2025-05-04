@@ -1,5 +1,6 @@
 #include "Rectangle.h"
 #include <GL/freeglut.h>
+#include <cmath>
 
 Rectangle::Rectangle() {
     x = 0.0;
@@ -32,15 +33,20 @@ void Rectangle::draw() {
     glEnd();
 }
 
+void Rectangle::setSize(bool increase) {
+    if (increase) {
+        width += 0.1f;
+        height += 0.1f;
+    } else {
+        width = fmax(0.1f, width - 0.1f);
+        height = fmax(0.1f, height - 0.1f);
+    }
+}
+
+
 void Rectangle::move(float x, float y) {
     x += x;
     y += y;
-}
-
-void Rectangle::setSize(int newSize) {
-    float scale = newSize / 50.0f;
-    width = 0.4 * scale;
-    height = 0.4 * scale;
 }
 
 void Rectangle::setColor(float r, float g, float b) {
@@ -68,4 +74,10 @@ float Rectangle::getG() const {
 }
 float Rectangle::getB() const {
     return b;
+}
+float Rectangle::getWidth() const {
+    return width;
+}
+float Rectangle::getHeight() const {
+    return height;
 }

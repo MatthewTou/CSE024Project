@@ -28,7 +28,7 @@ void Polygon::draw() {
 
     glBegin(GL_POLYGON);
     for (int i = 0; i < sides; i++) {
-        float angle = i * angleInc;
+        float angle = i * angleInc + M_PI / 2.0f;
         float px = x + cos(angle) * radius;
         float py = y + sin(angle) * radius;
         glVertex2f(px, py);
@@ -36,13 +36,19 @@ void Polygon::draw() {
     glEnd();
 }
 
+void Polygon::setSize(bool increase) {
+    if (increase) {
+        radius += 0.1f;
+    }
+    else {
+        radius = fmax(0.1f, radius - 0.1f);
+    }
+}
+
+
 void Polygon::move(float dx, float dy) {
     x += dx;
     y += dy;
-}
-
-void Polygon::setSize(int newSize) {
-    radius = newSize / 100.0f;
 }
 
 void Polygon::setColor(float r, float g, float b) {
@@ -70,4 +76,7 @@ float Polygon::getG() const {
 }
 float Polygon::getB() const {
     return b;
+}
+float Polygon::getRadius() const {
+    return radius;
 }

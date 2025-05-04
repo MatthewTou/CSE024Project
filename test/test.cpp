@@ -57,6 +57,47 @@ Context(AppTest){
         delete scribble;
         Assert::That(true, IsTrue());
     }
+
+    Spec(TriangleResizeShouldAffectSize) {
+    Triangle tri(0.0f, 0.0f, 1.0f, 0.0f, 0.0f);
+    float oldSize = tri.getSize();  
+    tri.setSize(true);
+    Assert::That(tri.getSize(), IsGreaterThan(oldSize));
+    }
+
+    Spec(CircleResizeShouldAffectRadius) {
+        Circle c(0.0f, 0.0f, 1.0f, 0.0f, 0.0f);
+        float oldRadius = c.getRadius(); 
+        c.setSize(true);
+        Assert::That(c.getRadius(), IsGreaterThan(oldRadius));
+    }
+
+    Spec(RectangleResizeShouldChangeDimensions) {
+        Rectangle rect(0.0f, 0.0f, 1.0f, 0.0f, 0.0f);
+        float oldWidth = rect.getWidth(); 
+        float oldHeight = rect.getHeight();
+        rect.setSize(true);
+        Assert::That(rect.getWidth(), IsGreaterThan(oldWidth));
+        Assert::That(rect.getHeight(), IsGreaterThan(oldHeight));
+    }
+
+    Spec(ScribbleResizeAffectsAllPoints) {
+        Scribble scribble;
+        scribble.addPoint(0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 5);
+        scribble.addPoint(0.2f, 0.2f, 0.0f, 1.0f, 0.0f, 5);
+        scribble.setSize(true);
+        Assert::That(scribble.getPointCount(), Equals(2u));
+    }
+
+    Spec(ScribbleSetColorChangesAllPoints) {
+        Scribble scribble;
+        scribble.addPoint(0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 5);
+        scribble.setColor(0.2f, 0.4f, 0.6f);
+        Assert::That(scribble.getR(), EqualsWithDelta(0.2f, 0.001f));
+        Assert::That(scribble.getG(), EqualsWithDelta(0.4f, 0.001f));
+        Assert::That(scribble.getB(), EqualsWithDelta(0.6f, 0.001f));
+    }
+
 };
 
 Application* AppTest::app = new Application();

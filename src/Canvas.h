@@ -35,12 +35,13 @@ class Canvas : public bobcat::Canvas_ {
 
         void select(float x, float y);
         void moveSelected(float dx, float dy);
-        void resizeSelected(int size);
         void recolorSelected(float r, float g, float b);
         void bringSelectedToFront();
         void sendSelectedToBack();
+        void resizeSelected(bool increase);
 
         Shape* getSelected() const;
+        void deselect();
 
         void clear();
         void undo();

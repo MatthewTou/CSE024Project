@@ -16,7 +16,7 @@ class Application : public bobcat::Application_ {
     float r;
     float g;
     float b;
-    int pointSize;
+    int pointSize = 5;
     std::string color;
 
     void onMouseDown(bobcat::Widget*sender, float x, float y);

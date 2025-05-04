@@ -24,17 +24,20 @@ std::size_t Scribble::getPointCount() const {
     return points.size();
 }
 
+void Scribble::setSize(bool increase) {
+    for (Point* p : points) {
+        int newSize = p->getSize() + (increase ? 1 : -1);
+        newSize = std::max(1, newSize);
+        *p = Point(p->getX(), p->getY(), p->getR(), p->getG(), p->getB(), newSize);
+    }
+}
+
+
 void Scribble::move(float dx, float dy) {
     for (Point* p : points) {
         float newX = p->getX() + dx;
         float newY = p->getY() + dy;
         *p = Point(newX, newY, p->getR(), p->getG(), p->getB(), p->getSize());
-    }
-}
-
-void Scribble::setSize(int newSize) {
-    for (Point* p : points) {
-        *p = Point(p->getX(), p->getY(), p->getR(), p->getG(), p->getB(), newSize);
     }
 }
 

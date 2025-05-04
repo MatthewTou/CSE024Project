@@ -75,12 +75,6 @@ void Canvas::moveSelected(float dx, float dy) {
     }
 }
 
-void Canvas::resizeSelected(int size) {
-    if (selected) {
-        selector->resize(size);
-    }
-}
-
 void Canvas::recolorSelected(float r, float g, float b) {
     if (selected) {
         selector->recolor(r, g, b);
@@ -103,3 +97,12 @@ Shape* Canvas::getSelected() const {
     return selected;
 }
 
+void Canvas::resizeSelected(bool increase) {
+    if (selected) {
+        selector->resize(increase);
+    }
+}
+
+void Canvas::deselect() {
+    selected = nullptr;
+}

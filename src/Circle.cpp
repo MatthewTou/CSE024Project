@@ -35,10 +35,6 @@ void Circle::move(float dx, float dy) {
     y += dy;
 }
 
-void Circle::setSize(int newSize) {
-    radius = newSize / 100.0f;
-}
-
 void Circle::setColor(float r, float g, float b) {
     this->r = r;
     this->g = g;
@@ -49,6 +45,16 @@ bool Circle::contains(float px, float py) {
     float dist = std::sqrt((px - x)*(px - x) + (py - y)*(py - y));
     return dist <= radius;
 }
+
+void Circle::setSize(bool increase) {
+    if (increase) {
+        radius += 0.1f;
+    }
+    else {
+        radius = fmax(0.05f, radius - 0.1f);
+    }
+}
+
 
 float Circle::getX() const { 
     return x; 
@@ -64,4 +70,7 @@ float Circle::getG() const {
 }
 float Circle::getB() const { 
     return b; 
+}
+float Circle::getRadius() const {
+    return radius;
 }

@@ -19,12 +19,6 @@ void Selector::move(float x, float y) {
     }
 }
 
-void Selector::resize(int newSize) {
-    if (selected) {
-    selected->setSize(newSize);
-    }
-}
-
 void Selector::recolor(float r, float g, float b) {
     if (selected) {
         selected->setColor(r, g, b);
@@ -41,6 +35,12 @@ void Selector::bringToFront() {
             std::swap(shapes[i], shapes[i + 1]); 
             break;
         }
+    }
+}
+
+void Selector::resize(bool increase) {
+    if (selected) {
+        selected->setSize(increase);
     }
 }
 

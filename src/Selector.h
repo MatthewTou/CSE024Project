@@ -11,9 +11,9 @@ class Selector {
 public:
     Selector(std::vector<Shape*>& shapes);
 
+    void resize(bool increase);
     void select(float x, float y);
     void move(float dx, float dy);
-    void resize(int newSize);
     void recolor(float r, float g, float b);
     void bringToFront();
     void sendToBack();

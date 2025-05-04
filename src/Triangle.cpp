@@ -34,10 +34,6 @@ void Triangle::move(float dx, float dy) {
     y += dy;
 }
 
-void Triangle::setSize(int newSize) {
-    size = newSize / 100.0f;
-}
-
 void Triangle::setColor(float r, float g, float b) {
     this->r = r;
     this->g = g;
@@ -48,13 +44,32 @@ bool Triangle::contains(float px, float py) {
     return abs(px - x) <= size && abs(py - y) <= size;
 }
 
-float Triangle::getX() const { return x; }
+void Triangle::setSize(bool increase) {
+    if (increase) {
+        size += 0.1f;
+    }
+    else {
+        size = fmax(0.05f, size - 0.1f);
+    }
+}
+
+float Triangle::getX() const { 
+    return x; 
+}
 float Triangle::getY() const { 
-    return y; }
+    return y; 
+}
 float Triangle::getR() const { 
-    return r; }
+    return r; 
+}
 float Triangle::getG() const { 
-    return g; }
+    return g; 
+}
 float Triangle::getB() const { 
-    return b; }
+    return b; 
+}
+float Triangle::getSize() const {
+    return size;
+}
+
 
