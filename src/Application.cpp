@@ -8,10 +8,10 @@ using namespace std;
 
 Application::Application() {
     
-    window = new Window(100, 100, 500, 650, "Paint Application");
-    canvas = new Canvas(50, 0, 450, 600);
+    window = new Window(100, 100, 600, 650, "Paint Application");
+    canvas = new Canvas(50, 0, 550, 600);
     toolbar = new Toolbar(0, 0, 50, 650);
-    colorSelector = new ColorSelector(100, 600, 350, 50);
+    colorSelector = new ColorSelector(100, 600, 450, 50);
     colorSelector->box(FL_BORDER_BOX);
     
     window->add(canvas);
